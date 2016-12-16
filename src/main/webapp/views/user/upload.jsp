@@ -53,6 +53,11 @@
 				value="Submit" />
 		</fieldset>
 	</form>
+	
+	
+	
+	
+	
 	<form action="upload_more" method="post" enctype="multipart/form-data">
 		<fieldset>
 			<legend>多文件上传</legend>
@@ -71,6 +76,9 @@
 			</table>
 		</fieldset>
 	</form>
+	
+	
+	
 	<div id="serverMsg"></div>
 	<form id="upload_ajax_form" method="post" enctype="multipart/form-data">
 		<fieldset>

@@ -1,20 +1,12 @@
 package com.fengtaiguang.springmvc.portal.web.controller.spring;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.nio.file.Path;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -30,6 +22,8 @@ import com.my.sys.entity.User;
 @Controller
 @RequestMapping("/views/user/")
 public class UserControllerSpring {
+	public static String disBasePath = "d:/upload/";
+	public static String webBasePath = "/files/";
 
 	@RequestMapping("input")
 	public String input() {
@@ -88,7 +82,7 @@ public class UserControllerSpring {
 		System.out.println("...........上传开始");
 		// String path =
 		// request.getSession().getServletContext().getRealPath("upload");
-		String path = "d:/springmvc/";
+		String path = "e:/springmvc-file/";
 		String fileName = file.getOriginalFilename();
 		System.out.println("..原始的文件名称:" + fileName);
 		// String fileName = new Date().getTime()+".jpg";
@@ -103,7 +97,6 @@ public class UserControllerSpring {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		model.addAttribute("fileUrl", request.getContextPath() + "/upload/" + fileName);
 
 		return "user/upload_result";
 	}
@@ -112,24 +105,41 @@ public class UserControllerSpring {
 	 * 上传多个文件
 	 */
 	@RequestMapping(value = "upload_more", produces = "application/json;charset=UTF-8")
-	public @ResponseBody boolean uploadFiles(@RequestParam("files") MultipartFile[] files) {
+	public @ResponseBody Boolean uploadFiles(HttpServletRequest request, @RequestParam("files") MultipartFile[] files) {
 		boolean result = false;
+		Map fileMap = new HashMap();
+		// http://www.baidu.com:9001/myweb/files/
 		String realPath;
 		for (int i = 0; i < files.length; i++) {
 			if (!files[i].isEmpty()) {
 				try {
-					String uniqueName = files[i].getOriginalFilename();// 得到文件名
-
-					realPath = "E:" + File.separator + uniqueName;// 文件上传的路径这里为E盘
-					System.out.println("...realPath=" + realPath);
-					files[i].transferTo(new File(realPath)); // 转存文件
+					// 得到客户端传过来的文件原始名称
+					String uniqueName = files[i].getOriginalFilename();
+					String sf = uniqueName.substring(uniqueName.lastIndexOf("."));
+					// 为上传文件起一个新的名字
+					Date date = new Date();
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssS");
+					String datePath = new SimpleDateFormat("yyyyMM").format(date);
+					String newFile = sdf.format(date) + "-" + (int)( Math.random() * 999) + sf;
+					// 将该文件存放到磁盘的路径
+					String newFilePath = disBasePath + datePath + "/";
+					System.out.println("...realPath=" + newFilePath);
+					File d = new File(newFilePath);
+					if (!d.exists()) {
+						d.mkdirs();
+					}
+					// 转存文件
+					files[i].transferTo(new File(newFilePath, newFile));
+					// 构造一个在web服务器上访问的URI
+					String fileWebUri = webBasePath + datePath + "/" + newFilePath;
+					fileMap.put("uniqueName", fileWebUri);
 					result = true;
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		}
-		return result;
+		return true;
 	}
 
 }
