@@ -8,6 +8,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+<%
+response.sendRedirect("views/main.jsp");
+%>
 </body>
 </html>
