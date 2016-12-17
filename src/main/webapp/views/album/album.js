@@ -106,6 +106,7 @@ var album={
 
 $(function() {
 	album.initGrid();
+	
 	// TIP: 配合body解决页面跳动和闪烁问题
 	$("body").css({
 		visibility : "visible"
