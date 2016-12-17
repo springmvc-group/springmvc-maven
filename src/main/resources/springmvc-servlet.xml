@@ -50,7 +50,7 @@
 		</property>
 	</bean>
 
-	<!-- -->
+	<!--
 	<bean id="loginInerceptor"
 		class="com.fengtaiguang.springmvc.portal.web.controller.spring.interceptor.LoginInterceptor" />
 	<mvc:interceptors>
@@ -60,7 +60,7 @@
 			<ref bean="loginInerceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>
-
+ 	-->
 	<bean class="org.springframework.web.servlet.i18n.CookieLocaleResolver"></bean>
 
 	<bean id="messageSource"

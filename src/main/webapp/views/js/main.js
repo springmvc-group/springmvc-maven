@@ -30,5 +30,37 @@ $(function() {
 			});
 		}
 	}
-
+	
 });
+
+function isDelete(datagrid,callback){
+	var row = $(datagrid).datagrid('getSelected');
+	if (row) {
+		$.messager.confirm('删除提示', '你确认删除选中的记录吗?', function(r) {
+			if (r) {
+				//alert(datagrid.deleteUrl);
+				callback(row);
+			}
+		});
+	} else {
+		$.messager.alert('删除提示', '至少选择一条记录后才能删除!', 'warning');
+	}
+}
+function sendFormByAjax(url,formId,callback){
+	var data=$(formId).serialize()
+	$.ajax({
+		url :url,
+		type : "post",
+		//contentType : "application/json;charset=utf-8",
+		dataType : "json",
+		data : data,
+		success : function(data) {
+			callback(data);
+		},
+		error: function(data) {
+             //alert("error:"+data.responseText);
+			
+        }
+	});
+	
+}

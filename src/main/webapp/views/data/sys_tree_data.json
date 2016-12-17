@@ -43,6 +43,11 @@
 		"url":"user/user.jsp"
 	},{
 		"id":14,
-		"text":"系统日志管理"
+		"text":"相册管理",
+		"url":"album/main"
+	},{
+		"id":15,
+		"text":"相片管理",
+		"url":"photo/main"
 	}]
 }]

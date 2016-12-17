@@ -5,7 +5,7 @@
 	<artifactId>springmvc-maven</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<properties>  
+	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<!--web系统必须设置 -->
 		<junit.version>4.12</junit.version>
@@ -46,6 +46,11 @@
 
 	</properties>
 	<dependencies>
+		<dependency>
+			<groupId>com.fengtaiguang</groupId>
+			<artifactId>photoalbum-model</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 		<!-- /////////WEB配置-开始///////// -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
